@@ -43,6 +43,10 @@
 
 #include "term.h"
 
+
+#define __DBG__(__X__) __X__
+//#define __DBG__(__X__) 
+
 /**********************************************************************/
 
 #define KEY_EXIT    '\x18' /* C-x: exit picocom */
@@ -108,7 +112,8 @@ int tty_fd;
  * <http://www.faqs.org/faqs/uucp-internals> for details
  */
 
-char lockname[_POSIX_PATH_MAX] = "";
+//char lockname[_POSIX_PATH_MAX] = "";
+char lockname[256] = ""; //Foxconn Add : Steve Hsieh : @pcomIn
 
 int
 uucp_lockname(const char *dir, const char *file)
@@ -519,7 +524,7 @@ loop(void)
 	tty_q.len = 0;
 	state = ST_TRANSPARENT;
 	dtr_up = 0;
-
+__DBG__(printf("GOGOGO\r\n");)
 	for (;;) {
 		FD_ZERO(&rdset);
 		FD_ZERO(&wrset);
@@ -542,6 +547,7 @@ loop(void)
 			else if (n < 0)
 				fatal("read from stdin failed: %s", strerror(errno));
 
+//__DBG__(printf("state = %d , %c input\r\n",state,c);)
 			switch (state) {
 
 			case ST_COMMAND:

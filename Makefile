@@ -1,4 +1,18 @@
+#
+# Copyright 2005  Hon Hai Precision Ind. Co. Ltd.
+#  All Rights Reserved.
+# No portions of this material shall be reproduced in any form without the
+# written permission of Hon Hai Precision Ind. Co. Ltd.
+#
+# All information contained in this document is Hon Hai Precision Ind.
+# Co. Ltd. company private, proprietary, and trade secret property and
+# are protected by international intellectual property laws and treaties.
+#
+# $Id$
+#
 
+include ../config.in
+include ../config.mk
 VERSION=1.4
 
 # CC = gcc
@@ -8,6 +22,13 @@ CFLAGS = -Wall -g
 # LD = gcc
 LDFLAGS = -g
 LDLIBS =
+ifeq ($(CONFIG_KERNEL_2_6_36),y)
+LDFLAGS	+= -lgcc_s
+endif
+
+install: picocom
+	install -D picocom $(TARGETDIR)/usr/sbin/picocom
+	$(STRIP) $(TARGETDIR)/usr/sbin/picocom
 
 picocom : picocom.o term.o
 #	$(LD) $(LDFLAGS) -o $@ $+ $(LDLIBS)
